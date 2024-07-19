@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://qikm6f1pds6s"]
+
+[ext_resource type="Script" path="res://GenesisArmVDroid.gd" id="1_qaygr"]
+[ext_resource type="Script" path="res://WebSocketClient.gd" id="2_8gbwn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b10la"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_njeqp"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xnhc8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7wtrh"]
+albedo_color = Color(0.207843, 0.231373, 0.211765, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nn5tu"]
+material = SubResource("StandardMaterial3D_7wtrh")
+size = Vector2(100, 100)
+
+[node name="OsmosisCapture" type="Node3D"]
+
+[node name="GenesisArmVDroid" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.820869, 0)
+script = ExtResource("1_qaygr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GenesisArmVDroid"]
+shape = SubResource("BoxShape3D_b10la")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GenesisArmVDroid/CollisionShape3D"]
+mesh = SubResource("BoxMesh_njeqp")
+skeleton = NodePath("../..")
+
+[node name="GenesisEyeVDroid" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18123, 2.36954)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_xnhc8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor/CollisionShape3D"]
+mesh = SubResource("PlaneMesh_nn5tu")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.18297, 0)
+
+[node name="WebSocketClient" type="Node" parent="."]
+script = ExtResource("2_8gbwn")
