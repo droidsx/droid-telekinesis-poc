@@ -16,13 +16,11 @@ In the future the godot environment can be completely removed as a dependency. O
 
 # API Contracts
 
-Our connections are over socket but let's review what we expect to stream between the three components.
-
 From the hand client we expect a JSON blob with a name of the joint to the Vector3D position of each joint and/or the difference from the last observed joint.
 
 From the DroidOS client we expect to see the sensor information returned. It should be a continuous stream of camera data, motor joint angles, and basic connection/state meta data.
 
-The goal is to end with a series of hand positions transforms (input) and the video and other sensor data (outputs) to train our imitation learning students at the Academy.
+The goal is to end with a series of hand positions transforms (input) and the video and other sensor data (outputs) to train our models with.
 
 ## Hand Client
 
