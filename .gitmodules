@@ -1,0 +1,3 @@
+[submodule "osmosis-unity-client"]
+	path = osmosis-unity-client
+	url = https://github.com/MichaelrMentele/osmosis-unity-client
