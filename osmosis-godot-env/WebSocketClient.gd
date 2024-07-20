@@ -1,7 +1,7 @@
 extends Node
 
 # The URL we will connect to.
-@export var websocket_url = "wss://echo.websocket.org"
+@export var websocket_url = "ws://localhost:8765"
 
 # Our WebSocketClient instance.
 var socket = WebSocketPeer.new()
@@ -31,7 +31,31 @@ func _process(_delta):
 	# to send and receive data.
 	if state == WebSocketPeer.STATE_OPEN:
 		while socket.get_available_packet_count():
-			print("Got data from server: ", socket.get_packet().get_string_from_utf8())
+			var data = socket.get_packet().get_string_from_utf8()
+			print("Got data from server: ", data)
+			var robot = get_parent().get_node("GenesisArmVDroid") as CharacterBody3D
+
+			# Simulate the action press
+			var action
+			match data:
+				"up":
+					action = "ui_up"
+					Input.action_press(action, 1.0)
+				"down":
+					action = "ui_down"
+					Input.action_press(action, 1.0)
+				"left":
+					action = "ui_left"
+					Input.action_press(action, 1.0)
+				"right":
+					action = "ui_right"
+					Input.action_press(action, 1.0)
+				_:
+					action = ""
+
+			await get_tree().create_timer(1).timeout  # Wait for 1 second
+			Input.action_release(action)
+			print('Simulating action release: ', action)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.

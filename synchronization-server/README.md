@@ -13,9 +13,3 @@ Run sync server and create an ngrok tunnel for it i.e.
 Now, when you make a socket connection it should get forwarded by ngrok to the `sync_server` on localhost.
 
 You can validate your setup by changing the URI in `python client.py` to whatever your URL is for ngrok. Whatever you type into the command line should get echoed back to you.
-
-# Validation
-
-- [x] test pub sub with client.py and sync_server.py
-- [ ] test tunnelling ability using ngrok
-- [ ] test subscription using godot websocket
