@@ -16,6 +16,7 @@ async def handler(websocket):
     
     async for message in websocket:
         try: 
+            print('received message and broadcasting: ', message)
             websockets.broadcast(connected, message)
         except Exception as e:
             print(e)

@@ -3,10 +3,11 @@
 import asyncio
 import websockets
 
+URI = "wss://droid-osmosis.onrender.com"
+
 async def hello():
-    uri = "ws://droid-osmosis.onrender.com:8765"
     while True: 
-        async with websockets.connect(uri) as websocket:
+        async with websockets.connect(URI) as websocket:
             # If you comment these input lines then this script will simply receive broadcasted messages. To test you can run this script as is (as a publisher) and then run another instance of this script without the input lines (as a subscriber).
             name = input("What's your name? ")
             await websocket.send(name)
