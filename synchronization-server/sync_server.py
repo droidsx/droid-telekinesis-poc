@@ -2,8 +2,10 @@
 
 import asyncio
 import websockets
+import os
 
 connected = set()
+PORT = os.environ.get('PORT', 8765)
 
 """
 This is a middleware that takes incoming data from a client and broadcasts it to all clients.
@@ -20,8 +22,8 @@ async def handler(websocket):
             break
 
 async def main():
-    print('server started on localhost:8765')
-    async with websockets.serve(handler, "localhost", 8765):
+    print('server started on 0.0.0.0:', PORT)
+    async with websockets.serve(handler, "0.0.0.0", PORT):
         await asyncio.Future()  # run forever
 
 asyncio.run(main())
