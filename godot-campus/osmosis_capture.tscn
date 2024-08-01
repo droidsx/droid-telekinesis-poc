@@ -1,11 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://qikm6f1pds6s"]
 
-[ext_resource type="Script" path="res://GenesisArmVDroid.gd" id="1_qaygr"]
+[ext_resource type="Script" path="res://osmosis_capture.gd" id="1_5rc73"]
 [ext_resource type="Script" path="res://WebSocketClient.gd" id="2_8gbwn"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_b10la"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_njeqp"]
+[ext_resource type="PackedScene" uid="uid://ck5c0xx3k7cs0" path="res://box_droid.tscn" id="2_vkafl"]
+[ext_resource type="PackedScene" uid="uid://iefpu5768o7m" path="res://rigid_box_droid.tscn" id="3_e7gtf"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xnhc8"]
 
@@ -17,20 +15,14 @@ material = SubResource("StandardMaterial3D_7wtrh")
 size = Vector2(100, 100)
 
 [node name="OsmosisCapture" type="Node3D"]
+script = ExtResource("1_5rc73")
 
-[node name="GenesisArmVDroid" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.820869, 0)
-script = ExtResource("1_qaygr")
+[node name="BoxDroid" parent="." instance=ExtResource("2_vkafl")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GenesisArmVDroid"]
-shape = SubResource("BoxShape3D_b10la")
+[node name="RigidBoxDroid" parent="." instance=ExtResource("3_e7gtf")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="GenesisArmVDroid/CollisionShape3D"]
-mesh = SubResource("BoxMesh_njeqp")
-skeleton = NodePath("../..")
-
-[node name="GenesisEyeVDroid" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18123, 2.36954)
+[node name="EyeVDroid" type="Camera3D" parent="."]
+transform = Transform3D(0.955185, -0.269572, -0.12228, 0.242268, 0.474594, 0.846207, -0.17008, -0.837909, 0.518634, -0.366325, 9.86827, 8.40591)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -42,6 +34,9 @@ mesh = SubResource("PlaneMesh_nn5tu")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.18297, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.119514, 0.696546, -0.707489, -0.00887712, 0.713318, 0.700785, 0.992793, -0.0774731, 0.0914347, -61.3306, 6.21694, 0)
 
 [node name="WebSocketClient" type="Node" parent="."]
 script = ExtResource("2_8gbwn")

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxdw1shddwm80"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsug8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_04tla"]
+
+[node name="RobotArmDroid" type="RigidBody3D"]
+
+[node name="Base" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
+transform = Transform3D(2, 0, 0, 0, 0.1, 0, 0, 0, 2, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+mesh = SubResource("CylinderMesh_bsug8")
+
+[node name="elbow" type="RigidBody3D" parent="."]
+
+[node name="HingeJoint3D" type="HingeJoint3D" parent="elbow"]
+node_a = NodePath("../../Base")
+node_b = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="elbow"]
+transform = Transform3D(0.2, 0, 0, 0, 1.4, 0, 0, 0, 0.1, 0, 0.908354, 0)
+mesh = SubResource("BoxMesh_04tla")
+
+[node name="wrist" type="RigidBody3D" parent="."]
+
+[node name="ConeTwistJoint3D" type="ConeTwistJoint3D" parent="wrist"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="wrist"]
+
+[node name="gripper" type="RigidBody3D" parent="."]
+
+[node name="HingeJoint3D" type="HingeJoint3D" parent="gripper"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="gripper"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.580873, 0.813994, 0, -0.813994, -0.580873, 0, 5.57066, -7.41558)

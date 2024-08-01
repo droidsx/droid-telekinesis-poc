@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://iefpu5768o7m"]
+
+[ext_resource type="Script" path="res://RigidBoxVDroid.gd" id="1_nhrq7"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_806dt"]
+friction = 0.0
+bounce = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_txpjc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nvtln"]
+
+[node name="RigidBoxDroid" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.51258, 1.11323, 0)
+physics_material_override = SubResource("PhysicsMaterial_806dt")
+script = ExtResource("1_nhrq7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_txpjc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_nvtln")
