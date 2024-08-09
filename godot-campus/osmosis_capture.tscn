@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://qikm6f1pds6s"]
 
 [ext_resource type="Script" path="res://osmosis_capture.gd" id="1_5rc73"]
-[ext_resource type="Script" path="res://WebSocketClient.gd" id="2_8gbwn"]
 [ext_resource type="PackedScene" uid="uid://ck5c0xx3k7cs0" path="res://box_droid.tscn" id="2_vkafl"]
 [ext_resource type="PackedScene" uid="uid://iefpu5768o7m" path="res://rigid_box_droid.tscn" id="3_e7gtf"]
+[ext_resource type="PackedScene" uid="uid://4hegjxtrs68c" path="res://web_socket_client.tscn" id="4_s2tqh"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xnhc8"]
 
@@ -38,5 +38,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.18297, 0)
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.119514, 0.696546, -0.707489, -0.00887712, 0.713318, 0.700785, 0.992793, -0.0774731, 0.0914347, -61.3306, 6.21694, 0)
 
-[node name="WebSocketClient" type="Node" parent="."]
-script = ExtResource("2_8gbwn")
+[node name="WebSocketClient" parent="." instance=ExtResource("4_s2tqh")]

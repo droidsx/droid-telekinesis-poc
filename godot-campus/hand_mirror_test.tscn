@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2wvy318j6twm"]
+
+[ext_resource type="Shader" path="res://handbox.gdshader" id="1_e5hcd"]
+[ext_resource type="Script" path="res://HandBox.gd" id="2_vop6l"]
+[ext_resource type="PackedScene" uid="uid://4hegjxtrs68c" path="res://web_socket_client.tscn" id="3_viwwx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ysi7h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cycdi"]
+render_priority = 0
+shader = ExtResource("1_e5hcd")
+shader_parameter/color0 = Vector4(1, 0, 0, 1)
+shader_parameter/color1 = Vector4(0, 1, 0, 1)
+shader_parameter/color2 = Vector4(0, 0, 1, 1)
+shader_parameter/color3 = Vector4(1, 1, 0, 1)
+shader_parameter/color4 = Vector4(1, 0, 1, 1)
+shader_parameter/color5 = Vector4(0, 1, 1, 1)
+
+[node name="HandMirrorTest" type="Node3D"]
+
+[node name="HandBox" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.01479)
+mesh = SubResource("BoxMesh_ysi7h")
+surface_material_override/0 = SubResource("ShaderMaterial_cycdi")
+script = ExtResource("2_vop6l")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52357, -4.30818)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.995735, 0.582822)
+
+[node name="WebSocketClient" parent="." instance=ExtResource("3_viwwx")]

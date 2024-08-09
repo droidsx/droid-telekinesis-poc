@@ -8,7 +8,7 @@ connected = set()
 PORT = os.environ.get('PORT', 8765)
 
 """
-This is a middleware that takes incoming data from a client and broadcasts it to all clients.
+This is a middleware that takes incoming data from a client controller, pre-processes it to a standard tele-operation format, and broadcasts it to connected clients. 
 """
 async def handler(websocket):
     print('received websocket connection: ', websocket)

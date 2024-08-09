@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+""" 
+Simple script for testing server is up and echoing back.
+"""
 import asyncio
 import websockets
 

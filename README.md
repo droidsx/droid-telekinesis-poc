@@ -69,12 +69,3 @@ Outgoing stream:
 Run godot scene.
 
 Type in the repl of the client.py terminal and see the text come through in the console in Godot.
-
-# Steps to Hello World Osmosis
-
-- [x] test pub sub with client.py and sync_server.py
-- [x] connect both clients to local host sync server
-  - [x] verify receipt from hands client content in godot connection
-- [x] use CLI to drive a block around in Godot
-  - [x] setup keyboard control
-  - [x] define left, right, up, down simplex
