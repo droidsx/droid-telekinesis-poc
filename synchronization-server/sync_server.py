@@ -20,10 +20,9 @@ async def handler(websocket):
         try: 
             # Transform message to Telekinesis format
             try: 
-                inbound = json.loads(message)
+                content = json.loads(message)
                 isMobileClient = content.get('RightHand', None) is not None
                 isVisionOSClient = content.get('leftHand', None) is not None
-                outbound = inbound
 
                 if isMobileClient:
                     # Transform to Telekinesis format
@@ -31,8 +30,8 @@ async def handler(websocket):
                 elif isVisionOSClient:
                     # Transform to Telekinesis format
                     outbound = adapter(content)
-                print('broadcasting: ', outbound)
-                websockets.broadcast(connected, json.dumps(outbound))
+                print('broadcasting: ', content)
+                websockets.broadcast(connected, json.dumps(content))
 
             except JSONDecodeError as e:
                 print('Error decoding JSON: ', e)
