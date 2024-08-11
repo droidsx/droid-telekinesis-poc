@@ -5,38 +5,40 @@ import websockets
 import os
 import json
 from json import JSONDecodeError
+from telekinesis.mobile_adapter.adapter import adapter
 
-connected = set()
+connections = set()
 PORT = os.environ.get('PORT', 8765)
 
 """
 This is a middleware that takes incoming data from a client controller, pre-processes it to a standard tele-operation format, and broadcasts it to connected clients. 
 """
 async def handler(websocket):
-    print('received websocket connection: ', websocket)
-    connected.add(websocket)
-    
+    connections.add(websocket)
+
+    print('received websocket connection: ', websocket)    
     async for message in websocket:
         # Transform message to Telekinesis format
         try: 
             content = json.loads(message)
+
             isMobileClient = content.get('RightHand', None) is not None
             isVisionOSClient = content.get('leftHand', None) is not None
 
             if isMobileClient:
                 # Transform to Telekinesis format
-                outbound = adapter(content)
+                content = adapter(content)
             elif isVisionOSClient:
                 # Transform to Telekinesis format
-                outbound = adapter(content)
+                content = adapter(content)
             print('broadcasting: ', content)
-            websockets.broadcast(connected, json.dumps(content))
+            websockets.broadcast(connections, json.dumps(content))
 
         except JSONDecodeError as e:
             print('Error decoding JSON: ', e)
             print('Message received was not JSON: ', message)
             print('Broadcasting: ', message)
-            websockets.broadcast(connected, message)
+            websockets.broadcast(connections, message)
 
 async def main():
     print('server started on 0.0.0.0:', PORT)
