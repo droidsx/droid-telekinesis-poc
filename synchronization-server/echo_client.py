@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 
 """ 
-Simple script for testing server is up and echoing back.
+Simple script for testing server is up. The server should send back whatever you give it.
 """
 import asyncio
 import websockets
 
-URI = "wss://droid-osmosis.onrender.com"
+URI = "wss://droid-osmosis-1.onrender.com"
 
 async def hello():
     while True: 
         async with websockets.connect(URI) as websocket:
             # If you comment these input lines then this script will simply receive broadcasted messages. To test you can run this script as is (as a publisher) and then run another instance of this script without the input lines (as a subscriber).
-            name = input("What's your name? ")
-            await websocket.send(name)
+            something = input("Say something for the server to echo back: ")
+            await websocket.send(something)
             print(f">>> {name}")
 
-            greeting = await websocket.recv()
-            print(f"<<< {greeting}")
+            echo = await websocket.recv()
+            print(f"<<< {echo}")
 
 if __name__ == "__main__":
     asyncio.run(hello())
