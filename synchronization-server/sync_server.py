@@ -18,24 +18,20 @@ async def handler(websocket):
         try: 
             print('received message and broadcasting: ', message)
             # Transform message to Telekinesis format
-            content = json.loads(message)
+            inbound = json.loads(message)
 
             isMobileClient = content.get('RightHand', None) is not None
             isVisionOSClient = content.get('leftHand', None) is not None
+            outbound = inbound
+
             if isMobileClient:
                 # Transform to Telekinesis format
-                goals = adapter(content)
-                message = json.dumps(goals)
+                outbound = adapter(content)
             elif isVisionOSClient:
                 # Transform to Telekinesis format
-                goals = adapter(content)
-                message = json.dumps(goals)
-            else:
-                # Don't know what is happening so pass it through 
-                # could also raise -- might be better
-                message = json.dumps(content)
+                outbound = adapter(content)
 
-            websockets.broadcast(connected, message)
+            websockets.broadcast(connected, outbound)
         except Exception as e:
             print(e)
             break
