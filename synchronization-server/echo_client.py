@@ -5,8 +5,9 @@ Simple script for testing server is up. The server should send back whatever you
 """
 import asyncio
 import websockets
+import os
 
-URI = "wss://droid-osmosis-1.onrender.com"
+URI = os.environ['URI'] or 'wss://droid-osmosis-1.onrender.com'
 
 async def hello():
     while True: 

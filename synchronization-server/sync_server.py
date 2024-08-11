@@ -4,6 +4,7 @@ import asyncio
 import websockets
 import os
 import json
+from json import JSONDecodeError
 
 connected = set()
 PORT = os.environ.get('PORT', 8765)
@@ -17,22 +18,28 @@ async def handler(websocket):
     
     async for message in websocket:
         try: 
-            print('received message and broadcasting: ', message)
             # Transform message to Telekinesis format
-            inbound = json.loads(message)
+            try: 
+                inbound = json.loads(message)
+                isMobileClient = content.get('RightHand', None) is not None
+                isVisionOSClient = content.get('leftHand', None) is not None
+                outbound = inbound
 
-            isMobileClient = content.get('RightHand', None) is not None
-            isVisionOSClient = content.get('leftHand', None) is not None
-            outbound = inbound
+                if isMobileClient:
+                    # Transform to Telekinesis format
+                    outbound = adapter(content)
+                elif isVisionOSClient:
+                    # Transform to Telekinesis format
+                    outbound = adapter(content)
+                print('broadcasting: ', outbound)
+                websockets.broadcast(connected, json.dumps(outbound))
 
-            if isMobileClient:
-                # Transform to Telekinesis format
-                outbound = adapter(content)
-            elif isVisionOSClient:
-                # Transform to Telekinesis format
-                outbound = adapter(content)
+            except JSONDecodeError as e:
+                print('Error decoding JSON: ', e)
+                print('Message received was not JSON: ', message)
 
-            websockets.broadcast(connected, json.dumps(outbound))
+            print('received message and broadcasting: ', message)
+            websockets.broadcast(connected, message)
         except Exception as e:
             print(e)
             break
