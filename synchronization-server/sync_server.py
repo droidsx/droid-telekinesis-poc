@@ -3,6 +3,7 @@
 import asyncio
 import websockets
 import os
+import json
 
 connected = set()
 PORT = os.environ.get('PORT', 8765)
@@ -31,7 +32,7 @@ async def handler(websocket):
                 # Transform to Telekinesis format
                 outbound = adapter(content)
 
-            websockets.broadcast(connected, outbound)
+            websockets.broadcast(connected, json.dumps(outbound))
         except Exception as e:
             print(e)
             break
