@@ -14,7 +14,7 @@ async def hello():
             # If you comment these input lines then this script will simply receive broadcasted messages. To test you can run this script as is (as a publisher) and then run another instance of this script without the input lines (as a subscriber).
             something = input("Say something for the server to echo back: ")
             await websocket.send(something)
-            print(f">>> {name}")
+            print(f">>> {something}")
 
             echo = await websocket.recv()
             print(f"<<< {echo}")
