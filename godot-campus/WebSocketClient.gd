@@ -2,7 +2,7 @@ extends Node
 
 # The URL we will connect to.
 @export var websocket_url = "wss://droid-osmosis-1.onrender.com"
-signal end_effector_goal_changes(json_data)
+signal end_effector_goal(json_data)
 
 # Our WebSocketClient instance.
 var socket = WebSocketPeer.new()
@@ -46,7 +46,7 @@ func _process(_delta):
 			if error == OK:
 				var json_data = json.data
 				# Publish the json data for robots or other controllables to consume
-				emit_signal("end_effector_goal_changes", json_data)
+				emit_signal("end_effector_goal", json_data["right"])
 
 				## Old legacy code where we did the transforms here and use l/r/u/d
 				#var wrist_data

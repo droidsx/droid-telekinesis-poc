@@ -4,7 +4,7 @@ extends MeshInstance3D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var publisher = get_node("../WebSocketClient")
-	publisher.connect("end_effector_goal_changes", _transform)
+	publisher.connect("end_effector_goal", _transform)
 
 
 func _transform(data):
