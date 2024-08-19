@@ -14,14 +14,14 @@ def success_fixture():
 def test_transform(success_fixture):
     goals = adapter(success_fixture)
     assert goals == {
+        "timestamp": 1724102548,
         "clientId": "DFEF841C-9442-4936-8F11-9C3595546A35",
-        "timestamp": 1723077231,
         "goals": {
             "left": {
                 "position_state": {
-                    "y": 0.3483285903930664,
-                    "x": 3.0620064735412598,
-                    "z": -10.524316787719727
+                    "y": 0.8093888759613037,
+                    "x": -0.24577036499977112,
+                    "z": -0.27957069873809814
                 },
                 "orientation_state": {
                     "x": 0,
@@ -33,9 +33,9 @@ def test_transform(success_fixture):
             },
             "right": {
                 "position_state": {
-                    "y": 0.312869668006897,
-                    "x": 2.875335931777954,
-                    "z": -10.420853614807129
+                    "y": 0.8037000298500061,
+                    "x": -0.009675380773842335,
+                    "z": -0.3731447756290436
                 },
                 "orientation_state": {
                     "x": 0,
@@ -43,7 +43,7 @@ def test_transform(success_fixture):
                     "z": 0,
                     "w": 1
                 },
-                "grasp_mode": "CLOSE"
+                "grasp_mode": "OPEN"
             }
         }
     }

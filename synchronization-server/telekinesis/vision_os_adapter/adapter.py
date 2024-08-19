@@ -41,6 +41,8 @@ class HandTrackingData(TypedDict):
     clientId: str    
 
 def adapter(content: HandTrackingData) -> TelekinesisGoalType:
+    rightWristContent = content["rightHand"]["jointPositions"]["wrist"]
+    leftWristContent = content["leftHand"]["jointPositions"]["wrist"]
     return {
         "clientId": content["clientId"],
         "timestamp": content["timestamp"],
@@ -48,9 +50,9 @@ def adapter(content: HandTrackingData) -> TelekinesisGoalType:
             "right": {
                 "grasp_mode": GraspMode.CLOSE.value if bool(content.get("rightHand").get("isPinchGesture")) else GraspMode.OPEN.value,
                 "position_state": {
-                    "z": content["rightHand"]["jointPositions"]["wrist"]["z"],
-                    "y": content["rightHand"]["jointPositions"]["wrist"]["y"],
-                    "x": content["rightHand"]["jointPositions"]["wrist"]["x"]
+                    "z": rightWristContent["position"]["z"],
+                    "y": rightWristContent["position"]["y"],
+                    "x": rightWristContent["position"]["x"]
                 },
                 # TODO: Add rotation state, have to calculate myself
                 "orientation_state": {
@@ -63,9 +65,9 @@ def adapter(content: HandTrackingData) -> TelekinesisGoalType:
             "left": {
                 "grasp_mode": GraspMode.CLOSE.value if bool(content.get("leftHand").get("isPinchGesture")) else GraspMode.OPEN.value,
                 "position_state": {
-                    "z": content["leftHand"]["jointPositions"]["wrist"]["z"],
-                    "y": content["leftHand"]["jointPositions"]["wrist"]["y"],
-                    "x": content["leftHand"]["jointPositions"]["wrist"]["x"]
+                    "z": leftWristContent["position"]["z"],
+                    "y": leftWristContent["position"]["y"],
+                    "x": leftWristContent["position"]["x"]
                 },
                 # TODO: Add rotation state
                 "orientation_state": {

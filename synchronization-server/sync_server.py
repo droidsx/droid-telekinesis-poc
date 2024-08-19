@@ -29,7 +29,6 @@ async def handler(websocket):
 
 def transform_message_to_telekinesis_format(content) -> TelekinesisGoalType:
     client_type = content.get('client_type')
-    print("client type is: ", client_type)
         
     if client_type == 'ios':
         # Transform to Telekinesis format
@@ -37,10 +36,12 @@ def transform_message_to_telekinesis_format(content) -> TelekinesisGoalType:
     # FIXME: Use quick hack -- only vision os controller has rightHand field
     # this is a temporary solution until we have a better way to identify the client type
     # like explicitly passing it
-    elif client_type == 'vision_os' or content.get('rightHand') is not None:
+    elif client_type == 'vision_os' or content.get('rightHand'):
         # Transform to Telekinesis format
         content = vision_os_adapter(content)
     else:
+        print('Client type not recognized')
+        print('vision_os: ', content.get('rightHand'))
         return None
 
     return content
