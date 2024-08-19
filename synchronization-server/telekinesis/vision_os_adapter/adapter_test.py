@@ -1,13 +1,14 @@
-from telekinesis.vision_os_adapter.adapter import adapter
 import json
-import pytest
 import os
 
+import pytest
+
+from telekinesis.vision_os_adapter.adapter import adapter
 
 @pytest.fixture
 def success_fixture():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    return json.loads(open(os.path.join(dir_path, "success_fixture.json")).read())
+    return json.loads(open(os.path.join(dir_path, "success_fixture.json"), encoding="utf-8").read())
 
 
 # Use the wrist as the goal position
