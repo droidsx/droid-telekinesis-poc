@@ -20,25 +20,24 @@ async def handler(websocket):
     print('received websocket connection: ', websocket)    
     async for message in websocket:
         # Transform message to Telekinesis format
-        try: 
-            content = json.loads(message)
+        print('Message received: ', message)
+        content = json.loads(message)
 
-            is_ios = content.get('client_type', None) == 'ios'
-
-            if is_ios:
-                # Transform to Telekinesis format
-                content = mobile_adapter(content)
-            else:
-                # Transform to Telekinesis format
-                content = vision_os_adapter(content)
-            print('broadcasting: ', content)
-            websockets.broadcast(connections, json.dumps(content))
-
-        except JSONDecodeError as e:
-            print('Error decoding JSON: ', e)
-
-        finally:
-            print('Message received: ', message)
+        client_type = content.get('client_type')
+        print("client type is: ", client_type)
+            
+        if client_type == 'ios':
+            # Transform to Telekinesis format
+            content = mobile_adapter(content)
+        elif client_type == 'vision_os':
+            # Transform to Telekinesis format
+            content = vision_os_adapter(content)
+        else:
+            raise Exception('Unknown client type')
+            
+        print('broadcasting: ', content)
+        websockets.broadcast(connections, json.dumps(content))
+        
 
         
 async def main():
