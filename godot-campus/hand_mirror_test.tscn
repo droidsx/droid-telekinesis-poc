@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2wvy318j6twm"]
+[gd_scene load_steps=7 format=3 uid="uid://d2wvy318j6twm"]
 
 [ext_resource type="Shader" path="res://handbox.gdshader" id="1_e5hcd"]
 [ext_resource type="Script" path="res://HandBox.gd" id="2_vop6l"]
 [ext_resource type="PackedScene" uid="uid://4hegjxtrs68c" path="res://web_socket_client.tscn" id="3_viwwx"]
+[ext_resource type="Script" path="res://Timer.gd" id="4_6n1om"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ysi7h"]
 
@@ -18,16 +19,23 @@ shader_parameter/color5 = Vector4(0, 1, 1, 1)
 
 [node name="HandMirrorTest" type="Node3D"]
 
-[node name="HandBox" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.01479)
+[node name="HandBox" type="MeshInstance3D" parent="." node_paths=PackedStringArray("goal_publisher")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 mesh = SubResource("BoxMesh_ysi7h")
 surface_material_override/0 = SubResource("ShaderMaterial_cycdi")
 script = ExtResource("2_vop6l")
+goal_publisher = NodePath("../GoalsSequenceTest")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52357, -4.30818)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.995735, 0.582822)
+transform = Transform3D(1, 0, 0, 0, 0.728096, 0.685475, 0, -0.685475, 0.728096, 0, 5.92139, 8.34507)
 
 [node name="WebSocketClient" parent="." instance=ExtResource("3_viwwx")]
+
+[node name="GoalsSequenceTest" type="Timer" parent="."]
+autostart = true
+script = ExtResource("4_6n1om")
+
+[connection signal="timeout" from="GoalsSequenceTest" to="GoalsSequenceTest" method="_on_timeout"]

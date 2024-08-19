@@ -1,20 +1,20 @@
 extends MeshInstance3D
 
+@export var goal_publisher: Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var publisher = get_node("../WebSocketClient")
-	publisher.connect("end_effector_goal", _transform)
+	goal_publisher.connect("end_effector_goal", _transform)
 
 
 func _transform(data):
-	print(data)
 	var translate_to = data["position_state"] 	# [ x: meters, y, z]
-	var rotate_to = data["rotation_state"] 		# [ x: radians, y, z ]
-	var grasp_mode = data["grasp_mode"] 		# opening | closing
+	# var rotate_to = data["orientation_state"] 		# [ x: radians, y, z ]
+	# var grasp_mode = data["grasp_mode"] 		# opening | closing
 
 	# Set position to given values -- the values received should be relative to the starting position - deltas
-	translate(Vector3(translate_to[0], translate_to[1], translate_to[2]))
+	print("positions of handbox: ", position)
+	position = Vector3(translate_to.x, translate_to.y, translate_to.z)
 
 	# TODO:
 	## Set the rotation of the block (assuming rotation is in radians)
@@ -33,6 +33,5 @@ func _transform(data):
 	#print("Position set to: ", new_position)
 	#print("Rotation set to: ", new_rotation)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
