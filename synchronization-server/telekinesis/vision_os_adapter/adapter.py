@@ -41,8 +41,22 @@ class HandTrackingData(TypedDict):
     clientId: str    
 
 def adapter(content: HandTrackingData) -> TelekinesisGoalType:
-    rightWristContent = content["rightHand"]["jointPositions"]["wrist"]
-    leftWristContent = content["leftHand"]["jointPositions"]["wrist"]
+    try: 
+        rightWristContent = content["rightHand"]["jointPositions"]["wrist"]
+    except KeyError:
+        rightWristContent = None
+    
+    try:
+        leftWristContent = content["leftHand"]["jointPositions"]["wrist"]
+    except KeyError:
+        leftWristContent = None
+
+    if rightWristContent is None or leftWristContent is None:
+        print("Error: rightWristContent or leftWristContent is None")
+        print("rightWristContent: ", rightWristContent)
+        print("leftWristContent: ", leftWristContent)
+        return None
+
     return {
         "clientId": content["clientId"],
         "timestamp": content["timestamp"],
