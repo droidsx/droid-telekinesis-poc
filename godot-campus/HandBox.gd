@@ -14,7 +14,7 @@ func _transform(data):
 
 	# Set position to given values -- the values received should be relative to the starting position - deltas
 	print("positions of handbox: ", position)
-	position = Vector3(translate_to.x, translate_to.y, translate_to.z)
+	position = Vector3(translate_to.x * 3, translate_to.y * 3, translate_to.z * 3)
 
 	# TODO:
 	## Set the rotation of the block (assuming rotation is in radians)

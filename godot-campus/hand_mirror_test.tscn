@@ -24,7 +24,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.0
 mesh = SubResource("BoxMesh_ysi7h")
 surface_material_override/0 = SubResource("ShaderMaterial_cycdi")
 script = ExtResource("2_vop6l")
-goal_publisher = NodePath("../GoalsSequenceTest")
+goal_publisher = NodePath("../WebSocketClient")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)

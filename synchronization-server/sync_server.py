@@ -21,6 +21,7 @@ async def handler(websocket):
         # Transform message to Telekinesis format
         try: 
             content = json.loads(message)
+            print('received message: ', content)
 
             isMobileClient = content.get('RightHand', None) is not None
             isVisionOSClient = content.get('leftHand', None) is not None
@@ -39,6 +40,9 @@ async def handler(websocket):
             print('Message received was not JSON: ', message)
             print('Broadcasting: ', message)
             websockets.broadcast(connections, message)
+        
+        finally:
+            print('Error occurred while processing message: ', message)
 
 async def main():
     print('server started on 0.0.0.0:', PORT)
