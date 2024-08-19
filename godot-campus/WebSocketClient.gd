@@ -37,7 +37,7 @@ func _process(_delta):
 			if error == OK:
 				var json_data = json.data
 				# Publish the json data for robots or other controllables to consume
-				if json_data && json_data["goals"]:
+				if json_data && json_data.get("goals") && json_data["goals"].get("right"):
 					emit_signal("end_effector_goal", json_data["goals"]["right"])
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.

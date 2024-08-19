@@ -15,6 +15,11 @@ class QuaternionType(TypedDict, total=False):
     w: float
 
 
+class JointLocalizerType(TypedDict, total=False):
+    position: PositionType
+    orientation: QuaternionType
+
+
 class GraspMode(Enum):
     OPEN = "OPEN"
     HOLD = "HOLD"

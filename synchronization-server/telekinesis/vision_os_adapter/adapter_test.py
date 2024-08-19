@@ -47,3 +47,12 @@ def test_transform(success_fixture):
             }
         }
     }
+
+@pytest.mark.parametrize("missing_hand, missing_key", [("rightHand", "right"), ("leftHand", "left")])
+def test_missing_hand(success_fixture, missing_hand, missing_key):
+    success_fixture.pop(missing_hand)
+
+    goals = adapter(success_fixture)
+
+    assert goals.get("goals").get(missing_key) is None
+    

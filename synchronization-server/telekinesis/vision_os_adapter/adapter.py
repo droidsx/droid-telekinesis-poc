@@ -1,34 +1,34 @@
-from typing import TypedDict, Dict
-from telekinesis.types import TelekinesisGoalType, PositionType, GraspMode
+from typing import TypedDict
+from telekinesis.types import TelekinesisGoalType, JointLocalizerType, GraspMode
 
 class JointPositions(TypedDict, total=False):
-    ringFingerMetacarpal: PositionType
-    thumbIntermediateBase: PositionType
-    middleFingerIntermediateBase: PositionType
-    ringFingerTip: PositionType
-    ringFingerIntermediateTip: PositionType
-    thumbTip: PositionType
-    middleFingerTip: PositionType
-    forearmWrist: PositionType
-    ringFingerIntermediateBase: PositionType
-    thumbKnuckle: PositionType
-    littleFingerKnuckle: PositionType
-    middleFingerMetacarpal: PositionType
-    littleFingerTip: PositionType
-    ringFingerKnuckle: PositionType
-    indexFingerKnuckle: PositionType
-    indexFingerTip: PositionType
-    middleFingerIntermediateTip: PositionType
-    thumbIntermediateTip: PositionType
-    littleFingerIntermediateBase: PositionType
-    middleFingerKnuckle: PositionType
-    indexFingerMetacarpal: PositionType
-    littleFingerMetacarpal: PositionType
-    wrist: PositionType
-    indexFingerIntermediateBase: PositionType
-    littleFingerIntermediateTip: PositionType
-    forearmArm: PositionType
-    indexFingerIntermediateTip: PositionType
+    ringFingerMetacarpal: JointLocalizerType
+    thumbIntermediateBase: JointLocalizerType
+    middleFingerIntermediateBase: JointLocalizerType
+    ringFingerTip: JointLocalizerType
+    ringFingerIntermediateTip: JointLocalizerType
+    thumbTip: JointLocalizerType
+    middleFingerTip: JointLocalizerType
+    forearmWrist: JointLocalizerType
+    ringFingerIntermediateBase: JointLocalizerType
+    thumbKnuckle: JointLocalizerType
+    littleFingerKnuckle: JointLocalizerType
+    middleFingerMetacarpal: JointLocalizerType
+    littleFingerTip: JointLocalizerType
+    ringFingerKnuckle: JointLocalizerType
+    indexFingerKnuckle: JointLocalizerType
+    indexFingerTip: JointLocalizerType
+    middleFingerIntermediateTip: JointLocalizerType
+    thumbIntermediateTip: JointLocalizerType
+    littleFingerIntermediateBase: JointLocalizerType
+    middleFingerKnuckle: JointLocalizerType
+    indexFingerMetacarpal: JointLocalizerType
+    littleFingerMetacarpal: JointLocalizerType
+    wrist: JointLocalizerType
+    indexFingerIntermediateBase: JointLocalizerType
+    littleFingerIntermediateTip: JointLocalizerType
+    forearmArm: JointLocalizerType
+    indexFingerIntermediateTip: JointLocalizerType
 
 class HandData(TypedDict, total=False):
     isPinchGesture: bool
@@ -41,22 +41,17 @@ class HandTrackingData(TypedDict):
     clientId: str    
 
 def adapter(content: HandTrackingData) -> TelekinesisGoalType:
-    try: 
-        rightWristContent = content["rightHand"]["jointPositions"]["wrist"]
-    except KeyError:
-        rightWristContent = None
-    
-    try:
-        leftWristContent = content["leftHand"]["jointPositions"]["wrist"]
-    except KeyError:
-        leftWristContent = None
-
-
     base_template = {
         "clientId": content["clientId"],
         "timestamp": content["timestamp"],
         "goals": dict()
     }
+
+    try: 
+        rightWristContent = content["rightHand"]["jointPositions"]["wrist"]
+    except KeyError:
+        rightWristContent = None
+    
 
     if rightWristContent is not None:
         base_template["goals"]["right"] = {
@@ -74,6 +69,11 @@ def adapter(content: HandTrackingData) -> TelekinesisGoalType:
                 "w": 1
             },
         }
+
+    try:
+        leftWristContent = content["leftHand"]["jointPositions"]["wrist"]
+    except KeyError:
+        leftWristContent = None
 
     if leftWristContent is not None:
         base_template["goals"]["left"] = {
