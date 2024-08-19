@@ -23,8 +23,9 @@ async def handler(websocket):
         print('Message received: ', message)
         content = json.loads(message)
         content = transform_message_to_telekinesis_format(content)
-        print('broadcasting: ', content)
-        websockets.broadcast(connections, json.dumps(content))
+        if content:
+            print('broadcasting: ', content)
+            websockets.broadcast(connections, json.dumps(content))
 
 
 def transform_message_to_telekinesis_format(content) -> TelekinesisGoalType:
