@@ -35,7 +35,10 @@ def transform_message_to_telekinesis_format(content) -> TelekinesisGoalType:
     if client_type == 'ios':
         # Transform to Telekinesis format
         content = mobile_adapter(content)
-    elif client_type == 'vision_os':
+    # FIXME: Use quick hack -- only vision os controller has isPinchGesture field
+    # this is a temporary solution until we have a better way to identify the client type
+    # like explicitly passing it
+    elif client_type == 'vision_os' or content.get('isPinchGesture') is not None:
         # Transform to Telekinesis format
         content = vision_os_adapter(content)
     else:
