@@ -5,7 +5,8 @@ import websockets
 import os
 import json
 from json import JSONDecodeError
-from telekinesis.mobile_adapter.adapter import adapter
+from telekinesis.mobile_adapter.adapter import adapter as mobile_adapter
+from telekinesis.vision_os_adapter.adapter import adapter as vision_os_adapter
 
 connections = set()
 PORT = os.environ.get('PORT', 8765)
@@ -21,29 +22,25 @@ async def handler(websocket):
         # Transform message to Telekinesis format
         try: 
             content = json.loads(message)
-            print('received message: ', content)
 
-            isMobileClient = content.get('RightHand', None) is not None
-            isVisionOSClient = content.get('leftHand', None) is not None
+            is_ios = content.get('client_type', None) == 'ios'
 
-            if isMobileClient:
+            if is_ios:
                 # Transform to Telekinesis format
-                content = adapter(content)
-            elif isVisionOSClient:
+                content = mobile_adapter(content)
+            else:
                 # Transform to Telekinesis format
-                content = adapter(content)
+                content = vision_os_adapter(content)
             print('broadcasting: ', content)
             websockets.broadcast(connections, json.dumps(content))
 
         except JSONDecodeError as e:
             print('Error decoding JSON: ', e)
-            print('Message received was not JSON: ', message)
-            print('Broadcasting: ', message)
-            websockets.broadcast(connections, message)
-        
-        finally:
-            print('Error occurred while processing message: ', message)
 
+        finally:
+            print('Message received: ', message)
+
+        
 async def main():
     print('server started on 0.0.0.0:', PORT)
     async with websockets.serve(handler, "0.0.0.0", PORT):
