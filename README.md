@@ -1,5 +1,5 @@
-This is a code spike. All relevant pieces will get merged into Droid Bodies.
----
+## This is a code spike. All relevant pieces will get merged into Droid Bodies.
+
 Telekinesis is the process of syncing your hand as the leader for an arbitrary Droid so that you can record training examples.
 
 It is similar to those corny scenes from TV where a guy shows a gal how to swing a golf club. But for Droids.

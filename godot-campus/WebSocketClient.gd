@@ -6,17 +6,14 @@ signal end_effector_goal(json_data)
 
 # Our WebSocketClient instance.
 var socket = WebSocketPeer.new()
+var reconnect_attempts = 0
+var max_reconnect_attempts = 10
+var reconnect_delay = 0.1 # Time in seconds between reconnection attempts
+
 
 func _ready():
-	# Initiate connection to the given URL.
-	var err = socket.connect_to_url(websocket_url)
-	if err != OK:
-		print("Unable to connect")
-		set_process(false)
-	else:
-		# Wait for the socket to connect.
-		await get_tree().create_timer(2).timeout
-		socket.send_text("Test packet")
+	connect_to_websocket()
+
 
 func _process(_delta):
 	# Call this in _process or _physics_process. Data transfer and state updates
@@ -52,8 +49,30 @@ func _process(_delta):
 		var code = socket.get_close_code()
 		print("WebSocket closed with code: %d. Clean: %s" % [code, code != -1])
 		set_process(false) # Stop processing.
+		reconnect()
 
-func _sort_dict_keys(input_dict: Dictionary) -> Dictionary:
+
+func connect_to_websocket():
+	print("Attempting to connect...")
+	var err = socket.connect_to_url(websocket_url)
+	if err != OK:
+		print("Unable to connect")
+		reconnect()
+	else:
+		print('Connected')
+		set_process(true)
+
+
+func reconnect():
+	if reconnect_attempts < max_reconnect_attempts:
+		reconnect_attempts += 1
+		print("Reconnection attempt %d/%d" % [reconnect_attempts, max_reconnect_attempts])
+		await get_tree().create_timer(reconnect_delay).timeout
+		connect_to_websocket()
+	else:
+		print("Max reconnection attempts reached. Giving up.")
+
+func sort_dict_keys(input_dict: Dictionary) -> Dictionary:
 	var sorted_dict = {}
 	var keys = input_dict.keys()
 	keys.sort()
@@ -61,7 +80,7 @@ func _sort_dict_keys(input_dict: Dictionary) -> Dictionary:
 	for key in keys:
 		var value = input_dict[key]
 		if typeof(value) == TYPE_DICTIONARY:
-			sorted_dict[key] = _sort_dict_keys(value)
+			sorted_dict[key] = sort_dict_keys(value)
 		else:
 			sorted_dict[key] = value
 

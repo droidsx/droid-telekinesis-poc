@@ -20,17 +20,18 @@ shader_parameter/color5 = Vector4(0, 1, 1, 1)
 [node name="HandMirrorTest" type="Node3D"]
 
 [node name="HandBox" type="MeshInstance3D" parent="." node_paths=PackedStringArray("goal_publisher")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+transform = Transform3D(3.99606, 0, 0, 0, 3.99606, 0, 0, 0, 3.99606, 0, 0, 0)
 mesh = SubResource("BoxMesh_ysi7h")
 surface_material_override/0 = SubResource("ShaderMaterial_cycdi")
 script = ExtResource("2_vop6l")
 goal_publisher = NodePath("../WebSocketClient")
+translationGain = 10
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.728096, 0.685475, 0, -0.685475, 0.728096, 0, 5.92139, 8.34507)
+transform = Transform3D(1, 0, 0, 0, 0.911705, 0.410846, 0, -0.410846, 0.911705, -0.588676, 8.03578, 9.17108)
 
 [node name="WebSocketClient" parent="." instance=ExtResource("3_viwwx")]
 
